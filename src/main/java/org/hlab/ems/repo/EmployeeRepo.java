@@ -5,6 +5,10 @@ import org.hlab.ems.model.Employee;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * @author Aaron mangbenza
+ * @since 1.0
+ */
 public interface EmployeeRepo {
 
     /**

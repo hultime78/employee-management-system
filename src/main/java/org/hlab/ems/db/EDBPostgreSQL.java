@@ -21,18 +21,20 @@ public class EDBPostgreSQL implements EmployeeDBConnection {
 
         }catch (ClassNotFoundException | SQLException e){
             e.printStackTrace();
+            throw new DBException("Could not connect to the database",e);
         }
     }
 
     @Override
     public boolean insertEmployee(Employee employee) {
-        boolean resp=false;
+        boolean resp;
         try {
             state=conn.createStatement();
             resp=state.execute("INSERT INTO public.employee (firstname,lastname,age)" +
                     " VALUES ('"+employee.getFirstName()+"','"+employee.getLastName()+"',"+employee.getAge()+"); ") ;
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new DBException("Could not insert a new employee" ,e);
         }
         return resp;
     }
@@ -49,6 +51,7 @@ public class EDBPostgreSQL implements EmployeeDBConnection {
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+            throw new DBException("Could not get the list of employee",throwables);
         }
         return employeeList;
     }
@@ -64,6 +67,7 @@ public class EDBPostgreSQL implements EmployeeDBConnection {
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+            throw new DBException("could not retrieve the employee",throwables);
         }
         return employee;
     }
@@ -77,15 +81,16 @@ public class EDBPostgreSQL implements EmployeeDBConnection {
                 employee=new Employee(reset.getInt(1),reset.getString(2),
                         reset.getString(3),reset.getInt(4));
             }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new DBException("Could not get the employee",e);
         }
         return employee;
     }
 
     @Override
     public boolean updateEmployee(Employee employee) {
-        boolean resp=false;
+        boolean resp;
         try{
             resp=state.execute("UPDATE public.employee" +
                     " SET firstname='"+employee.getFirstName()+"',lastname='"
@@ -93,18 +98,35 @@ public class EDBPostgreSQL implements EmployeeDBConnection {
                    + "WHERE id="+employee.getId()+";");
         }catch (SQLException e){
             e.printStackTrace();
+            throw new DBException("Could not update employee",e);
         }
         return resp;
     }
 
     @Override
     public boolean deleteEmployee(int id) {
-        boolean resp=false;
+        boolean resp;
         try {
             resp=state.execute("DELETE FROM public.employee WHERE id='"+id+"'");
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+            throw new DBException("Couldn't delete the employe",throwables);
         }
         return resp;
+    }
+
+    public void close(){
+        try {
+            if(conn!=null){
+                conn.close();
+            }
+            if (state!=null){
+                state.close();
+            }
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            throw new DBException("Couldn't close the connection ",throwables);
+        }
     }
 }
