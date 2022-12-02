@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface EmployeeDBConnection {
 
-    Employee insertEmployee(Employee employee);
+    boolean insertEmployee(Employee employee);
 
     List<Employee> getEmployees();
 
@@ -14,7 +14,7 @@ public interface EmployeeDBConnection {
 
     Employee getEmployeeByFirstName(String firstName);
 
-    Employee updateEmployee(Employee employee);
+    boolean updateEmployee(Employee employee);
 
     boolean deleteEmployee(int id);
 

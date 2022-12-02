@@ -8,7 +8,7 @@ import java.util.List;
 
 public class EDBPostgreSQL implements EmployeeDBConnection {
 
-    String dtbUrl="jdbc:postgresql://localhost:5432/dataset",user="postgres",password="hultime";
+    String dtbUrl="jdbc:postgresql://localhost:5432/ems",user="postgres",password="hultime";
     Connection conn;
     Statement state;
 
@@ -25,15 +25,16 @@ public class EDBPostgreSQL implements EmployeeDBConnection {
     }
 
     @Override
-    public Employee insertEmployee(Employee employee) {
+    public boolean insertEmployee(Employee employee) {
+        boolean resp=false;
         try {
             state=conn.createStatement();
-            state.execute("INSERT INTO public.employee (firstname,lastname,age)" +
+            resp=state.execute("INSERT INTO public.employee (firstname,lastname,age)" +
                     " VALUES ('"+employee.getFirstName()+"','"+employee.getLastName()+"',"+employee.getAge()+"); ") ;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-        return employee;
+        return resp;
     }
 
     @Override
@@ -83,16 +84,17 @@ public class EDBPostgreSQL implements EmployeeDBConnection {
     }
 
     @Override
-    public Employee updateEmployee(Employee employee) {
+    public boolean updateEmployee(Employee employee) {
+        boolean resp=false;
         try{
-            state.execute("UPDATE public.employee" +
+            resp=state.execute("UPDATE public.employee" +
                     " SET firstname='"+employee.getFirstName()+"',lastname='"
                 +employee.getLastName()+"'', age="+employee.getAge()+""
                    + "WHERE id="+employee.getId()+";");
         }catch (SQLException e){
             e.printStackTrace();
         }
-        return employee;
+        return resp;
     }
 
     @Override

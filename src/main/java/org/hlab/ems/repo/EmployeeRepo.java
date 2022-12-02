@@ -1,4 +1,43 @@
 package org.hlab.ems.repo;
 
-public class EmployeeRepo {
+import org.hlab.ems.model.Employee;
+
+import java.util.List;
+import java.util.Optional;
+
+public interface EmployeeRepo {
+
+    /**
+     * Add a nem employee to the database
+     * @param employee
+     * @return true if the employee is successfully added false otherwise
+     */
+    boolean save(Employee employee);
+
+    /**
+     * find an employee by id
+     * @param id
+     * @return an optional of Employee
+     */
+    Optional<Employee> findOne(int id);
+
+    /**
+     * Get all records of employee from the database
+     * @return a list of all employees
+     */
+
+    List<Employee> findAll();
+
+    /**
+     * Delete employee by id
+     * @param employeeID
+     * @return {@code 0} if employee was found and deleted
+     * {@code 1} otherwise
+     */
+    int deleteEmployeeByID(int employeeID);
+
+
+    Employee updateEmployee(Employee employee);
+
+
 }
