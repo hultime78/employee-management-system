@@ -25,6 +25,8 @@ public interface EmployeeRepo {
      */
     Optional<Employee> findOne(int id);
 
+    Optional<Employee> findOne(String firstName);
+
     /**
      * Get all records of employee from the database
      * @return a list of all employees

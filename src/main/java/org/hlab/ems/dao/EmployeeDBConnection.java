@@ -1,4 +1,4 @@
-package org.hlab.ems.db;
+package org.hlab.ems.dao;
 
 import org.hlab.ems.model.Employee;
 

@@ -7,13 +7,16 @@ import java.util.List;
 public interface EmployeeService {
 
 
-    boolean createEmployee(Employee employee);
+    boolean createEmployee(String firstName,String lastName,int age);
 
     boolean deleteEmployee(int id);
 
-    Employee updateEmployee(Employee employee);
+    Employee updateEmployee(int id,String firstName,String lastName,int age);
 
     List<Employee> getEmployees();
 
+    Employee getByID(int id);
+
+    Employee getBYFN(String firstName);
 
 }

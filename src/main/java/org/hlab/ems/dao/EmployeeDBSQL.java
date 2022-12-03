@@ -1,4 +1,4 @@
-package org.hlab.ems.db;
+package org.hlab.ems.dao;
 
 import org.hlab.ems.model.Employee;
 
@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 
-public class EDBPostgreSQL implements EmployeeDBConnection {
+public class EmployeeDBSQL implements EmployeeDBConnection {
 
     Logger log=Logger.getLogger(EmployeeDBConnection.class.getName());
 
@@ -16,7 +16,7 @@ public class EDBPostgreSQL implements EmployeeDBConnection {
     Connection conn;
     Statement state;
 
-    public EDBPostgreSQL(){
+    public EmployeeDBSQL(){
         connect();
     }
 
@@ -30,7 +30,7 @@ public class EDBPostgreSQL implements EmployeeDBConnection {
 
         }catch (ClassNotFoundException | SQLException e){
             e.printStackTrace();
-            throw new DBException("Could not connect to the database",e);
+            throw new EmployeeDBException("Could not connect to the database",e);
         }
     }
 
@@ -45,7 +45,7 @@ public class EDBPostgreSQL implements EmployeeDBConnection {
             log.info("Inserted new employee: "+employee);
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new DBException("Could not insert a new employee" ,e);
+            throw new EmployeeDBException("Could not insert a new employee" ,e);
         }
         return resp;
     }
@@ -63,7 +63,7 @@ public class EDBPostgreSQL implements EmployeeDBConnection {
             employeeList.forEach(item->log.info(item.toString()));
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-            throw new DBException("Could not get the list of employee",throwables);
+            throw new EmployeeDBException("Could not get the list of employee",throwables);
         }
         return employeeList;
     }
@@ -77,10 +77,10 @@ public class EDBPostgreSQL implements EmployeeDBConnection {
                 employee=new Employee(reset.getInt(1),reset.getString(2),
                         reset.getString(3),reset.getInt(4));
             }
-            log.info("Found : "+employee);
+            log.info("Employee whose id => "+id+" Found : "+employee);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-            throw new DBException("could not retrieve the employee",throwables);
+            throw new EmployeeDBException("could not retrieve the employee",throwables);
         }
         return employee;
     }
@@ -89,6 +89,7 @@ public class EDBPostgreSQL implements EmployeeDBConnection {
     public Employee getEmployeeByFirstName(String firstName) {
         Employee employee = null;
         try {
+            log.info("SELECT * FROM public.employee WHERE firstname='"+firstName+"' ;");
             ResultSet reset=state.executeQuery("SELECT * FROM public.employee WHERE firstname='"+firstName+"' ;");
             while (reset.next()){
                 employee=new Employee(reset.getInt(1),reset.getString(2),
@@ -97,7 +98,7 @@ public class EDBPostgreSQL implements EmployeeDBConnection {
             log.info("Found : "+employee);
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new DBException("Could not get the employee",e);
+            throw new EmployeeDBException("Could not get the employee",e);
         }
         return employee;
     }
@@ -113,7 +114,7 @@ public class EDBPostgreSQL implements EmployeeDBConnection {
             log.info("Updated : "+employee);
         }catch (SQLException e){
             e.printStackTrace();
-            throw new DBException("Could not update employee",e);
+            throw new EmployeeDBException("Could not update employee",e);
         }
         return resp;
     }
@@ -126,7 +127,7 @@ public class EDBPostgreSQL implements EmployeeDBConnection {
             log.info("deleted employee id : "+id);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-            throw new DBException("Couldn't delete the employe",throwables);
+            throw new EmployeeDBException("Couldn't delete the employe",throwables);
         }
         return resp;
     }
@@ -145,7 +146,7 @@ public class EDBPostgreSQL implements EmployeeDBConnection {
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-            throw new DBException("Couldn't close the connection ",throwables);
+            throw new EmployeeDBException("Couldn't close the connection ",throwables);
         }
     }
 }
