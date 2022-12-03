@@ -20,5 +20,7 @@ public interface EmployeeDBConnection {
 
     void connect();
 
+    void disconnect();
+
 
 }

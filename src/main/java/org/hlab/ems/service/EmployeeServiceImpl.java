@@ -1,5 +1,6 @@
 package org.hlab.ems.service;
 
+import org.hlab.ems.db.EDBPostgreSQL;
 import org.hlab.ems.model.Employee;
 import org.hlab.ems.repo.EmployeeRepo;
 import org.hlab.ems.repo.EmployeeRepoImpl;
@@ -8,15 +9,11 @@ import java.util.List;
 
 public class EmployeeServiceImpl implements EmployeeService{
 
-    EmployeeRepo employeeRepo;
-
-    public EmployeeServiceImpl(EmployeeRepo employeeRepo) {
-        this.employeeRepo = employeeRepo;
-    }
+    EmployeeRepo employeeRepo=new EmployeeRepoImpl(new EDBPostgreSQL());
 
     @Override
     public boolean createEmployee(Employee employee) {
-
+        employeeRepo.save(employee);
         return false;
     }
 
