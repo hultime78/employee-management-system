@@ -10,7 +10,12 @@ import java.util.Optional;
 
 public class EmployeeRepoSQL implements EmployeeRepo{
 
-    private EmployeeDBConnection conn= new EmployeeDBSQL();
+    private EmployeeDBConnection conn;
+
+
+    public EmployeeRepoSQL(EmployeeDBConnection edb){
+        this.conn=edb;
+    }
 
     @Override
     public boolean save(Employee employee) {
@@ -38,6 +43,11 @@ public class EmployeeRepoSQL implements EmployeeRepo{
     public int deleteEmployeeByID(int employeeID) {
         return conn.deleteEmployee(employeeID)?0:1;
 
+    }
+
+    @Override
+    public int deleteEmployeeByFN(String firstName) {
+        return conn.deleteEmployee(firstName)?0:1;
     }
 
     @Override

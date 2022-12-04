@@ -42,7 +42,13 @@ public interface EmployeeRepo {
      */
     int deleteEmployeeByID(int employeeID);
 
+    int deleteEmployeeByFN(String firstName);
 
+    /**
+     * Updates an employee properties using the employee object's properties put in parameter
+     * @param employee
+     * @return an {@code Employee} up to date
+     */
     Employee updateEmployee(Employee employee);
 
 

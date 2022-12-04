@@ -18,6 +18,8 @@ public interface EmployeeDBConnection {
 
     boolean deleteEmployee(int id);
 
+    boolean deleteEmployee(String name);
+
     void connect();
 
     void disconnect();

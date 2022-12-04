@@ -16,9 +16,6 @@ public class EmployeeDBSQL implements EmployeeDBConnection {
     Connection conn;
     Statement state;
 
-    public EmployeeDBSQL(){
-        connect();
-    }
 
     @Override
     public void connect() {
@@ -125,6 +122,19 @@ public class EmployeeDBSQL implements EmployeeDBConnection {
         try {
             resp=state.execute("DELETE FROM public.employee WHERE id='"+id+"'");
             log.info("deleted employee id : "+id);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            throw new EmployeeDBException("Couldn't delete the employe",throwables);
+        }
+        return resp;
+    }
+
+    @Override
+    public boolean deleteEmployee(String name) {
+        boolean resp;
+        try {
+            resp=state.execute("DELETE FROM public.employee WHERE firstname='"+name+"'");
+            log.info("deleted employee firstname : "+name);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
             throw new EmployeeDBException("Couldn't delete the employe",throwables);
